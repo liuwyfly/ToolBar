@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
     <color name="colorToolbarTitle">#FFFFFF</color>
+    <color name="cursorColor">#9B9B9B</color> <!-- Edit 光标颜色 -->
+    <color name="hintColor">#9B9B9B</color> <!-- Edit Hint 颜色 -->
 </resources>
