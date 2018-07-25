@@ -1,7 +1,10 @@
 package com.dpc.www.mytoolbar;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -9,12 +12,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.Button;
 import android.view.View;
+import android.widget.ImageView;
+
+import java.io.File;
+import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MyActivity";
     private static final int PHOTO_REQUEST = 1;
     private static final int PHOTO_CLIP = 2;
+    private ImageView mImageView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +30,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Button loginBtn = (Button)findViewById(R.id.button);
+        mImageView = (ImageView)findViewById(R.id.mImageView);
         loginBtn.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {
@@ -57,6 +66,38 @@ public class MainActivity extends AppCompatActivity {
                     photoClip(uri);
                 }
                 break;
+            case PHOTO_CLIP:
+                if(data != null){
+                    File filepath;
+                    Bundle extras = data.getExtras();
+                    if (extras != null) {
+                        Bitmap photo = extras.getParcelable("data");
+                        String innerPath = Environment.getDataDirectory().getPath();
+                        Log.i(TAG, "data path:" + innerPath);
+
+                        File[] files = new File[1];
+
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+//                            files = getExternalFilesDirs(Environment.MEDIA_MOUNTED);
+                            files = getExternalFilesDirs(null);
+                            for(File file:files){
+                                Log.i(TAG, file.getPath());
+                            }
+                        }
+                        try {
+                            //获得图片路径
+                            filepath = UploadUtil.saveFile(photo, files[0].getPath(), "icon.jpg");
+//                            Log.i(TAG, "filepath:");
+//                            Log.i(TAG, filepath.getAbsolutePath());
+                            //上传照片
+                            // toUploadFile();
+                        } catch (IOException e) {
+//                            e.printStackTrace();
+                        }
+
+                        mImageView.setImageBitmap(photo);
+                    }
+                }
         }
     }
 

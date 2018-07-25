@@ -33,6 +33,13 @@
             android:layout_height="wrap_content"
             android:text="Image_01"
             />
+
+        <ImageView
+            android:id="@+id/mImageView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:srcCompat="@mipmap/ic_launcher_round" />
+
     </LinearLayout>
 
 </android.support.constraint.ConstraintLayout>
